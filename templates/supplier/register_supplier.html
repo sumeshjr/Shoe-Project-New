@@ -11,6 +11,11 @@
       integrity="sha384-9ndCyUa8C7X4eo+2jG7FSgEGEwlBOiBOoxnA3RXCApPdjUcQmd7xK27p9bwwJL6l"
       crossorigin="anonymous"
     />
+    <!-- Bootstrap Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    />
   </head>
 
   {% include 'header.html' %}
@@ -25,11 +30,7 @@
               <h4 class="mb-0">Supplier Registration</h4>
             </div>
             <div class="card-body">
-              <form
-                method="POST"
-                id="registerForm"
-                onsubmit="return validateForm()"
-              >
+              <form method="POST" id="registerForm" onsubmit="return validateForm()">
                 {% csrf_token %}
 
                 <div class="mb-3">
@@ -54,41 +55,43 @@
                   />
                 </div>
 
-                <div class="mb-3">
+                <div class="mb-3 position-relative">
                   <label for="password" class="form-label">Password:</label>
-                  <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    class="form-control"
-                    required
-                  />
+                  <div class="input-group">
+                    <input
+                      type="password"
+                      id="password"
+                      name="password"
+                      class="form-control"
+                      required
+                    />
+                    <span class="input-group-text">
+                      <i class="bi bi-eye-slash" id="togglePassword" style="cursor: pointer;"></i>
+                    </span>
+                  </div>
                 </div>
 
-                <div class="mb-3">
-                  <label for="confirm_password" class="form-label"
-                    >Confirm Password:</label
-                  >
-                  <input
-                    type="password"
-                    id="confirm_password"
-                    name="confirm_password"
-                    class="form-control"
-                    required
-                  />
-                  <div
-                    id="password-error"
-                    class="text-danger mt-2"
-                    style="display: none"
-                  >
+                <div class="mb-3 position-relative">
+                  <label for="confirm_password" class="form-label">Confirm Password:</label>
+                  <div class="input-group">
+                    <input
+                      type="password"
+                      id="confirm_password"
+                      name="confirm_password"
+                      class="form-control"
+                      required
+                    />
+                    <span class="input-group-text">
+                      <i class="bi bi-eye-slash" id="toggleConfirmPassword" style="cursor: pointer;"></i>
+                    </span>
+                  </div>
+                  <div id="password-error" class="text-danger mt-2" style="display: none;">
                     Passwords do not match.
                   </div>
                 </div>
 
                 <div class="mb-3">
-                  <label for="company_name" class="form-label"
-                    >Company Name:</label
-                  >
+                  <label for="company_name" class="form-label">Company Name:</label>
                   <input
                     type="text"
                     id="company_name"
@@ -99,9 +102,7 @@
                 </div>
 
                 <div class="mb-3">
-                  <label for="contact_info" class="form-label"
-                    >Contact Info:</label
-                  >
+                  <label for="contact_info" class="form-label">Contact Info:</label>
                   <textarea
                     id="contact_info"
                     name="contact_info"
@@ -111,9 +112,7 @@
                   ></textarea>
                 </div>
 
-                <button type="submit" class="btn btn-danger w-100">
-                  Register
-                </button>
+                <button type="submit" class="btn btn-danger w-100">Register</button>
               </form>
             </div>
             <div class="card-footer text-center">
@@ -132,12 +131,45 @@
     ></script>
 
     <script>
+      // Toggle Password Visibility
+      document.getElementById("togglePassword").addEventListener("click", function () {
+        const passwordField = document.getElementById("password");
+        const icon = this;
+        togglePasswordVisibility(passwordField, icon);
+      });
+
+      document.getElementById("toggleConfirmPassword").addEventListener("click", function () {
+        const confirmPasswordField = document.getElementById("confirm_password");
+        const icon = this;
+        togglePasswordVisibility(confirmPasswordField, icon);
+      });
+
+      function togglePasswordVisibility(inputField, icon) {
+        if (inputField.type === "password") {
+          inputField.type = "text";
+          icon.classList.remove("bi-eye-slash");
+          icon.classList.add("bi-eye");
+        } else {
+          inputField.type = "password";
+          icon.classList.remove("bi-eye");
+          icon.classList.add("bi-eye-slash");
+        }
+      }
+
+      // Form Validation
       function validateForm() {
         var password = document.getElementById("password").value;
         var confirmPassword = document.getElementById("confirm_password").value;
         var errorDiv = document.getElementById("password-error");
 
+        if (password.length < 8) {
+          errorDiv.textContent = "Password must be at least 8 characters long.";
+          errorDiv.style.display = "block";
+          return false;
+        }
+
         if (password !== confirmPassword) {
+          errorDiv.textContent = "Passwords do not match.";
           errorDiv.style.display = "block";
           return false;
         }

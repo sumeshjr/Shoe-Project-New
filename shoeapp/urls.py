@@ -29,6 +29,7 @@ urlpatterns = [
     path('category/<int:category_id>/', view_products_by_category, name='view_products_by_category'),
     path('update_profile/', update_profile, name='update_profile'),
     path('view_profile/', view_profile, name='view_profile'),
+    path('product/<int:product_id>/', product_detail, name='product_detail'),
 
 
     # Common

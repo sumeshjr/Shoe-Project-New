@@ -256,6 +256,11 @@ def remove_from_cart(request):
 
     return redirect('home')
 
+def product_detail(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    sizes = range(5, 13)  # Sizes from 5 to 12
+    return render(request, 'user/product_detail.html', {'product': product, 'sizes': sizes})
+
 def view_cart(request):
     # Get the user's cart
     try:
@@ -281,6 +286,7 @@ def view_products_by_category(request, category_id):
     category = get_object_or_404(ProductCategory, id=category_id)  # Get the category
     products = Product.objects.filter(category=category)  # Get products by category
     return render(request, 'user/products_by_category.html', {'category': category, 'products': products,'sizes':sizes})
+
 
 def search_view(request):
     query = request.GET.get('q', '')  # Get the search query from the GET request

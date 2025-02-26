@@ -8,8 +8,11 @@
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
       rel="stylesheet"
-      integrity="sha384-9ndCyUa8C7X4eo+2jG7FSgEGEwlBOiBOoxnA3RXCApPdjUcQmd7xK27p9bwwJL6l"
-      crossorigin="anonymous"
+    />
+    <!-- Bootstrap Icons for eye toggle -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
     />
   </head>
 
@@ -58,28 +61,48 @@
                   />
                 </div>
 
-                <div class="mb-3">
+                <!-- Password with eye toggle -->
+                <div class="mb-3 position-relative">
                   <label for="password" class="form-label">Password:</label>
-                  <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    class="form-control"
-                    required
-                  />
+                  <div class="input-group">
+                    <input
+                      type="password"
+                      id="password"
+                      name="password"
+                      class="form-control"
+                      required
+                    />
+                    <span class="input-group-text">
+                      <i
+                        class="bi bi-eye-slash"
+                        id="togglePassword"
+                        style="cursor: pointer"
+                      ></i>
+                    </span>
+                  </div>
                 </div>
 
-                <div class="mb-3">
+                <!-- Confirm Password with eye toggle -->
+                <div class="mb-3 position-relative">
                   <label for="confirm_password" class="form-label"
                     >Confirm Password:</label
                   >
-                  <input
-                    type="password"
-                    id="confirm_password"
-                    name="confirm_password"
-                    class="form-control"
-                    required
-                  />
+                  <div class="input-group">
+                    <input
+                      type="password"
+                      id="confirm_password"
+                      name="confirm_password"
+                      class="form-control"
+                      required
+                    />
+                    <span class="input-group-text">
+                      <i
+                        class="bi bi-eye-slash"
+                        id="toggleConfirmPassword"
+                        style="cursor: pointer"
+                      ></i>
+                    </span>
+                  </div>
                   <div
                     id="password-error"
                     class="text-danger mt-2"
@@ -112,10 +135,9 @@
     <!-- Bootstrap JS -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-w76A8fR4E0sOM+2uK8Fh7TxEjER2iSJ3BYwzWmZPZfF031pA6aLMR2gB7k0t9lrC"
-      crossorigin="anonymous"
     ></script>
 
+    <!-- Password Validation & Toggle JS -->
     <script>
       function validateForm() {
         var password = document.getElementById("password").value;
@@ -128,6 +150,7 @@
         // Check if password length is at least 8 characters
         if (password.length < 8) {
           passwordLengthErrorDiv.style.display = "block";
+          passwordErrorDiv.style.display = "none";
           return false;
         } else {
           passwordLengthErrorDiv.style.display = "none";
@@ -142,6 +165,33 @@
         passwordErrorDiv.style.display = "none";
         return true;
       }
+
+      // Toggle Password Visibility
+      const togglePassword = document.getElementById("togglePassword");
+      const passwordField = document.getElementById("password");
+      togglePassword.addEventListener("click", function () {
+        const type =
+          passwordField.getAttribute("type") === "password"
+            ? "text"
+            : "password";
+        passwordField.setAttribute("type", type);
+        this.classList.toggle("bi-eye");
+        this.classList.toggle("bi-eye-slash");
+      });
+
+      const toggleConfirmPassword = document.getElementById(
+        "toggleConfirmPassword"
+      );
+      const confirmPasswordField = document.getElementById("confirm_password");
+      toggleConfirmPassword.addEventListener("click", function () {
+        const type =
+          confirmPasswordField.getAttribute("type") === "password"
+            ? "text"
+            : "password";
+        confirmPasswordField.setAttribute("type", type);
+        this.classList.toggle("bi-eye");
+        this.classList.toggle("bi-eye-slash");
+      });
     </script>
   </body>
 </html>

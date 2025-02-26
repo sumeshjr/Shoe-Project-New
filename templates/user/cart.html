@@ -37,8 +37,11 @@
                 <div class="card-body">
                   <span class="card-price fw-bold d-block mb-2">{{ product.product.name }}</span>
                   <span class="card-price fw-bold d-block mb-2">${{ product.product.price }}</span>
-          
+
+                  <span class="cart-quantity text-muted">Size: <strong>{{ product.size }}</strong></span>
+                  <br>
                   <span class="cart-quantity text-muted">Quantity: <strong>{{ product.quantity }}</strong></span>
+                  
               
 
                   <!-- Remove from Cart Form -->

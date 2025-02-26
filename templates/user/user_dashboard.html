@@ -6,17 +6,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>User Dashboard</title>
-  
+
 <body>
   {% include 'user/user_header.html' %}
-  
+
   <div class="dashboard-container">
 
     <!-- Django Messages -->
-  <!-- Django Messages -->
-  {% if messages %} {% for message in messages %}
-  <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-  {% endfor %} {% endif %}
+    <!-- Django Messages -->
+    {% if messages %} {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %} {% endif %}
     <section id="featured-products" class="product-store">
       <div class="container-md">
         <div class="display-header d-flex align-items-center justify-content-between">
@@ -33,7 +33,7 @@
                 <div class="card-body">
                   <span class="card-price fw-bold d-block mb-2">{{ product.name }}</span>
                   <span class="card-price fw-bold d-block mb-2">${{ product.price }}</span>
-    
+
                   <!-- Add to Cart Form -->
                   <form method="POST" action="{% url 'add_to_cart' %}" class="d-flex flex-column gap-2">
                     {% csrf_token %}
@@ -45,16 +45,23 @@
                       <option value="{{ size }}">{{ size }}</option>
                       {% endfor %}
                     </select>
-                    <button type="submit" class="btn btn-primary w-100 d-flex align-items-center justify-content-center gap-2">
+                    <button type="submit"
+                      class="btn btn-primary w-100 d-flex align-items-center justify-content-center gap-2">
                       <svg class="shopping-carriage" width="16" height="16">
                         <use xlink:href="#shopping-carriage"></use>
                       </svg>
                       Add to Cart
                     </button>
                   </form>
-    
+
                   <!-- Quick View Button -->
-                  
+                  <a href="{% url 'product_detail' product.id %}"
+                    class="btn btn-outline-secondary w-100 mt-2 d-flex align-items-center justify-content-center gap-2">
+                    <svg class="info-icon" width="16" height="16">
+                      <use xlink:href="#info"></use>
+                    </svg>
+                    View Details
+                  </a>
                 </div>
               </div>
             </div>
@@ -63,7 +70,7 @@
         </div>
       </div>
     </section>
-    
+
     <script src="{% static 'js/jquery-1.11.0.min.js' %}"></script>
     <script src="{% static 'js/plugins.js' %}"></script>
     <script src="{% static 'js/script.js' %}"></script>

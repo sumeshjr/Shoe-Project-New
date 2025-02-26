@@ -39,7 +39,7 @@
             <!-- Role -->
             <div class="mb-3">
                 <label for="role" class="form-label">Role</label>
-                <select class="form-select" id="role" name="role">
+                <select class="form-select" id="role" name="role" disabled>
                     <option value="admin" {% if user.role == 'admin' %}selected{% endif %}>Admin</option>
                     <option value="supplier" {% if user.role == 'supplier' %}selected{% endif %}>Supplier</option>
                     <option value="user" {% if user.role == 'user' %}selected{% endif %}>User</option>

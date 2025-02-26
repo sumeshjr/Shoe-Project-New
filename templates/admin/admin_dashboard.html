@@ -188,7 +188,7 @@
                   <h3 class="card-title fs-6 fw-normal m-0">
                     <span class="card-price fw-bold">{{ product.name }}</span>
                   </h3>
-                  <span class="card-price fw-bold">${{ product.price }}</span>
+                  <span class="card-price fw-bold">{{ product.price }} Rs</span>
                 </div>
                 <a
                   href="{% url 'update_product' product.id %}"
