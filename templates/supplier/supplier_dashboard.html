@@ -1,0 +1,167 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Supplier Dashboard</title>
+    <style>
+      /* Root Variables */
+      :root {
+        --bs-red: #dc3545; /* Red color for buttons and links */
+        --light-color: #fff; /* Light text color */
+      }
+
+      /* Body Styles */
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #f4f4f9;
+        color: #333;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        min-height: 100vh; /* Ensure full height */
+      }
+
+      /* Header Styles */
+      header {
+        width: 100%;
+        background-color: #f8f9fa;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      header h1 {
+        margin: 0;
+        font-size: 2rem;
+        color: #333;
+      }
+
+      /* Dashboard Container */
+      .dashboard-container {
+        background: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        max-width: 800px;
+        width: 100%;
+        margin: 20px auto;
+        flex-grow: 1; /* Ensure it takes up the remaining space */
+      }
+
+      /* Dashboard Header */
+      .dashboard-container h1 {
+        text-align: center;
+        font-size: 2rem;
+        margin-bottom: 30px;
+        color: #444;
+      }
+
+      /* Section Heading */
+      .dashboard-container h2 {
+        font-size: 1.4rem;
+        margin-bottom: 15px;
+        color: #444;
+      }
+
+      /* Links */
+      .dashboard-container a {
+        color: var(--bs-red);
+        text-decoration: none;
+        font-size: 1rem;
+        font-weight: bold;
+        display: block;
+        margin-bottom: 15px;
+        transition: color 0.3s ease;
+      }
+
+      .dashboard-container a:hover {
+        color: #c82333;
+        text-decoration: underline;
+      }
+
+      /* Buttons */
+      .dashboard-container button {
+        background-color: var(--bs-red);
+        color: var(--light-color);
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background-color 0.3s ease;
+      }
+
+      .dashboard-container button:hover {
+        background-color: #c82333;
+      }
+
+      /* Alerts */
+      .alert {
+        padding: 10px 15px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        font-size: 0.9rem;
+      }
+
+      .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+
+      .alert-error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+
+      /* Back to Home Link */
+      .back-home {
+        display: block;
+        text-align: center;
+        margin-top: 30px;
+        color: var(--bs-red);
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 1rem;
+      }
+
+      .back-home:hover {
+        color: #c82333;
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+
+  {% include 'supplier/supplier_header.html' %}
+
+  <body>
+    <div class="dashboard-container">
+      <h1>Supplier Dashboard</h1>
+
+      <!-- Django Messages -->
+      {% if messages %} {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+      {% endfor %} {% endif %}
+
+      <!-- Inventory Section -->
+      <div>
+        <p>
+          <a href="{% url 'view_products' %}">
+            <button>View All Products</button>
+          </a>
+        </p>
+      </div>
+
+      <!-- Back to Home Link -->
+      <a href="{% url 'home' %}" class="back-home">Back to Home</a>
+    </div>
+
+    <script src="{% static 'js/jquery-1.11.0.min.js' %}"></script>
+    <script src="{% static 'js/plugins.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+  </body>
+</html>

@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Delete Supplier</title>
+  </head>
+  {% include 'admin/admin_header.html' %}
+  <br /><br />
+  <body>
+    <!-- Django Messages -->
+    {% if messages %} {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %} {% endif %}
+    <h1>
+      Are you sure you want to delete supplier - {{ supplier.company_name }}?
+    </h1>
+    <p>Contact Info: {{ supplier.contact_info }}</p>
+
+    <form method="POST">
+      {% csrf_token %}
+      <button type="submit">Yes, delete</button>
+    </form>
+
+    <a href="{% url 'view_all_suppliers' %}">Back to Suppliers</a>
+  </body>
+
+  <script src="{% static 'js/jquery-1.11.0.min.js' %}"></script>
+  <script src="{% static 'js/plugins.js' %}"></script>
+  <script src="{% static 'js/script.js' %}"></script>
+</html>

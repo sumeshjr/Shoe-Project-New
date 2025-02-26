@@ -1,0 +1,41 @@
+{% load static %} {% include 'user/user_header.html' %} {% block content %}
+<div class="container-md">
+  <h2 class="text-center mb-4">Product Categories</h2>
+
+  <!-- Django Messages -->
+  {% if messages %} {% for message in messages %}
+  <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+  {% endfor %} {% endif %}
+
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+    {% for category in categories %}
+    <div class="col">
+      <!-- Card View for Category -->
+      <div class="card h-100">
+        <div class="card-header text-center">
+          <h5>{{ category.name }}</h5>
+        </div>
+        <div class="card-body">
+          <!-- Description or any additional content can be added here -->
+          <p class="card-text">
+            Click below to view products in this category.
+          </p>
+        </div>
+        <div class="card-footer text-center">
+          <!-- View Products Button -->
+          <a
+            href="{% url 'view_products_by_category' category.id %}"
+            class="btn btn-primary"
+            >View Products</a
+          >
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<script src="{% static 'js/jquery-1.11.0.min.js' %}"></script>
+<script src="{% static 'js/plugins.js' %}"></script>
+<script src="{% static 'js/script.js' %}"></script>
+{% endblock %}

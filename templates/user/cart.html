@@ -1,0 +1,72 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Dashboard</title>
+  
+<body>
+  {% include 'user/user_header.html' %}
+  
+  <div class="dashboard-container">
+
+    <!-- Django Messages -->
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
+    <section id="featured-products" class="product-store">
+      <div class="container-md">
+        <div class="display-header d-flex align-items-center justify-content-between">
+          <h2 class="section-title text-uppercase">My Cart</h2>
+        </div>
+
+        <div class="product-content padding-small">
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5">
+            {% if cart_items %}
+            {% for product in cart_items %}
+            <div class="col mb-4">
+              <div class="product-card position-relative p-3 border rounded shadow-sm">
+                <div class="card-img text-center">
+                  <img src="{{ product.product.image_url.url }}" alt="{{ product.product.name }}" class="product-image img-fluid">
+                </div>
+                <div class="card-body">
+                  <span class="card-price fw-bold d-block mb-2">{{ product.product.name }}</span>
+                  <span class="card-price fw-bold d-block mb-2">${{ product.product.price }}</span>
+          
+                  <span class="cart-quantity text-muted">Quantity: <strong>{{ product.quantity }}</strong></span>
+              
+
+                  <!-- Remove from Cart Form -->
+                  <form method="POST" action="{% url 'remove_from_cart' %}" class="d-flex flex-column gap-2">
+                    {% csrf_token %}
+                    <input type="hidden" name="product_id" value="{{ product.product.id }}">
+                    <button type="submit" class="btn btn-danger w-100 d-flex align-items-center justify-content-center gap-2">
+                      <svg class="remove-cart" width="16" height="16">
+                        <use xlink:href="#remove-cart"></use>
+                      </svg>
+                      Remove from Cart
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <p class="text-center mt-4">Your cart is empty.</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <script src="{% static 'js/jquery-1.11.0.min.js' %}"></script>
+    <script src="{% static 'js/plugins.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+
+</html>
