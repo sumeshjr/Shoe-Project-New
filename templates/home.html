@@ -14,6 +14,7 @@
       name="description"
       content="Stylish - Shoes Online Store HTML Template"
     />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <link rel="stylesheet" href="{% static 'css/vendor.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
@@ -111,8 +112,12 @@
           </div>
         </div>
       </div>
-    </section>
+        <a href="{% url 'chat' %}">
+          <i class="fas fa-atom" style="font-size:36px"></i>
+        </a>
 
+    </section>
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
     <script src="{% static 'js/jquery-1.11.0.min.js' %}"></script>
     <script src="{% static 'js/plugins.js' %}"></script>
     <script src="{% static 'js/script.js' %}"></script>

@@ -222,6 +222,7 @@
   text-align: left;
 }
 
+
 /* no container mode*/
 body.chocolat-open > .chocolat-overlay {
   z-index: 15;

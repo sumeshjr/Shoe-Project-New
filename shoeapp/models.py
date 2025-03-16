@@ -55,31 +55,18 @@ class Supplier(models.Model):
 
     def __str__(self):
         return self.company_name
-
-# Order Model
+    
+    
 class Order(models.Model):
-    STATUS_CHOICES = [
-        ('pending', 'Pending'),
-        ('shipped', 'Shipped'),
-        ('delivered', 'Delivered'),
-        ('canceled', 'Canceled'),
-    ]
+    
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="orders")
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    products = models.ManyToManyField('Product', related_name="orders")  # Many-to-Many relation with Product
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    payment = models.OneToOneField('Payment', on_delete=models.SET_NULL, blank=True, null=True, related_name="order")
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Order {self.id} - {self.status}"
-
-# Order Item Model
-class OrderItem(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="items")
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="order_items")
-    quantity = models.PositiveIntegerField()
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-
-    def __str__(self):
-        return f"{self.product.name} (x{self.quantity})"
+        return f"Order {self.id} - User: {self.user.username}"
 
 # Wishlist Model
 class Wishlist(models.Model):
@@ -116,16 +103,6 @@ class Invoice(models.Model):
     def __str__(self):
         return f"Invoice for Order {self.order.id}"
 
-# Chatbot Interaction Model
-class ChatbotInteraction(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="chat_interactions")
-    message = models.TextField()
-    response = models.TextField()
-    timestamp = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"Interaction by {self.user.username} at {self.timestamp}"
-
 class ProductUpdateRequest(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="update_requests")
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE, related_name="product_update_requests")
@@ -136,3 +113,28 @@ class ProductUpdateRequest(models.Model):
 
     def __str__(self):
         return f"Update Request for {self.product.name} by {self.supplier.company_name}"
+    
+class Payment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    razorpay_order_id = models.CharField(max_length=255, blank=True, null=True)
+    razorpay_payment_id = models.CharField(max_length=255, blank=True, null=True)
+    status = models.CharField(max_length=20, choices=[('Pending', 'Pending'), ('Success', 'Success'), ('Failed', 'Failed')], default='Pending')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Payment {self.id} - {self.status}"
+#ChatBot_Model
+class ChatHistory(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='chats')
+    user_message = models.TextField()
+    ai_response = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-timestamp']
+
+    def __str__(self):
+        return f"{self.user.username}: {self.user_message[:30]}"
+    
+

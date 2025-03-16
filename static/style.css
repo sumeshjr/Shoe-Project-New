@@ -87,6 +87,9 @@ h6,
   color: var(--heading-color);
   line-height: var(--heading-line-height);
 }
+.fas {
+  padding-left: 1300px;
+}
 
 a {
   text-decoration: none;

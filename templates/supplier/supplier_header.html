@@ -14,7 +14,7 @@
       name="description"
       content="Stylish - Shoes Online Store HTML Template"
     />
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="{% static 'css/vendor.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
 
@@ -295,6 +295,10 @@
                 </li>
                 <li class="nav-item">
                   <a class="nav-link me-5" href="{% url 'logout' %}">Logout</a>
+                </li>
+                <li class="nav-item">
+                  <a href="{% url 'chat' %}">
+          <i class="fas fa-atom" style="font-size:36px"></i></a>
                 </li>
               </ul>
             </div>

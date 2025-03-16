@@ -130,3 +130,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'shoeapp.User'
+
+RAZORPAY_KEY_ID = "rzp_test_m1jNogBlTM0P4f"
+RAZORPAY_KEY_SECRET = "j1SxGkjv7Nn6Wt406gRU9BD9"
+

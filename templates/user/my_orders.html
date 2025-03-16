@@ -1,0 +1,74 @@
+{% load static %} {% include 'user/user_header.html' %} 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            margin-top: 40px;
+        }
+        .order-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .order-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #007bff;
+        }
+        .product-list {
+            padding-left: 20px;
+        }
+        .product-item {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2 class="text-center">My Orders</h2>
+
+    {% if orders %}
+        {% for order in orders %}
+            <div class="order-card">
+                <p class="order-title">Order ID: {{ order.id }}</p>
+                <p><strong>Total Amount:</strong> ${{ order.total_amount }}</p>
+                <p><strong>Products:</strong></p>
+                <ul class="product-list">
+                    {% for product in order.products.all %}
+                        <li class="product-item">{{ product.name }} - ${{ product.price }}</li>
+                    {% endfor %}
+                </ul>
+                <p><strong>Payment Status:</strong> <span class="badge {% if order.payment.status == 'Success' %}bg-success{% elif order.payment.status == '' %}bg-warning{% else %}bg-danger{% endif %}">
+                    {{ order.payment.status }}
+                </span></p>
+                <p><strong>Order Date:</strong> {{ order.created_at|date:"d M Y, H:i" }}</p>
+                <p>
+                    <a href="{% url 'download_invoice' order.id %}" class="btn btn-primary btn-sm">
+                        Download Invoice
+                    </a>
+                </p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p class="text-center">You have no orders yet.</p>
+    {% endif %}
+</div>
+<script src="{% static 'js/jquery-1.11.0.min.js' %}"></script>
+<script src="{% static 'js/plugins.js' %}"></script>
+<script src="{% static 'js/script.js' %}"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

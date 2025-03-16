@@ -1,4 +1,3 @@
-
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -7,10 +6,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>User Dashboard</title>
-  
+
 <body>
   {% include 'user/user_header.html' %}
-  
+
   <div class="dashboard-container">
 
     <!-- Django Messages -->
@@ -32,23 +31,25 @@
             <div class="col mb-4">
               <div class="product-card position-relative p-3 border rounded shadow-sm">
                 <div class="card-img text-center">
-                  <img src="{{ product.product.image_url.url }}" alt="{{ product.product.name }}" class="product-image img-fluid">
+                  <img src="{{ product.product.image_url.url }}" alt="{{ product.product.name }}"
+                    class="product-image img-fluid">
                 </div>
                 <div class="card-body">
                   <span class="card-price fw-bold d-block mb-2">{{ product.product.name }}</span>
-                  <span class="card-price fw-bold d-block mb-2">${{ product.product.price }}</span>
+                  <span class="card-price fw-bold d-block mb-2">{{ product.product.price }}Rs</span>
 
                   <span class="cart-quantity text-muted">Size: <strong>{{ product.size }}</strong></span>
                   <br>
                   <span class="cart-quantity text-muted">Quantity: <strong>{{ product.quantity }}</strong></span>
-                  
-              
+
+
 
                   <!-- Remove from Cart Form -->
                   <form method="POST" action="{% url 'remove_from_cart' %}" class="d-flex flex-column gap-2">
                     {% csrf_token %}
                     <input type="hidden" name="product_id" value="{{ product.product.id }}">
-                    <button type="submit" class="btn btn-danger w-100 d-flex align-items-center justify-content-center gap-2">
+                    <button type="submit"
+                      class="btn btn-danger w-100 d-flex align-items-center justify-content-center gap-2">
                       <svg class="remove-cart" width="16" height="16">
                         <use xlink:href="#remove-cart"></use>
                       </svg>
@@ -64,9 +65,19 @@
             {% endif %}
           </div>
         </div>
+
+        <!-- Payment Section -->
+        {% if cart_items %}
+        <div class="checkout-section text-center mt-4">
+          <h3>Total: {{ total_price }} Rs</h3>
+          <a href="{% url 'make_payment' %}" class="btn btn-primary btn-lg">
+            Proceed to Payment
+          </a>
+        </div>
+        {% endif %}
       </div>
     </section>
-    
+
     <script src="{% static 'js/jquery-1.11.0.min.js' %}"></script>
     <script src="{% static 'js/plugins.js' %}"></script>
     <script src="{% static 'js/script.js' %}"></script>

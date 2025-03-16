@@ -32,8 +32,9 @@
                 </div>
                 <div class="card-body">
                   <span class="card-price fw-bold d-block mb-2">{{ product.name }}</span>
-                  <span class="card-price fw-bold d-block mb-2">${{ product.price }}</span>
+                  <span class="card-price fw-bold d-block mb-2">{{ product.price }}Rs</span>
 
+                  {% if product.stock > 0 %}
                   <!-- Add to Cart Form -->
                   <form method="POST" action="{% url 'add_to_cart' %}" class="d-flex flex-column gap-2">
                     {% csrf_token %}
@@ -53,6 +54,10 @@
                       Add to Cart
                     </button>
                   </form>
+                  {% else %}
+                  <!-- Stock Unavailable Message -->
+                  <p class="text-danger fw-bold text-center mt-2">Stock Unavailable</p>
+                  {% endif %}
 
                   <!-- Quick View Button -->
                   <a href="{% url 'product_detail' product.id %}"
@@ -67,6 +72,68 @@
             </div>
             {% endfor %}
           </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <section id="featured-products" class="product-store">
+      <div class="container-md">
+        <div class="display-header d-flex align-items-center justify-content-between">
+          <h2 class="section-title text-uppercase">Trending Products</h2>
+        </div>
+        <div class="product-content padding-small">
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5">
+            {% for product in trending_products %}
+            <div class="col mb-4">
+              <div class="product-card position-relative p-3 border rounded shadow-sm">
+                <div class="card-img text-center">
+                  <img src="{{ product.image_url.url }}" alt="{{ product.name }}" class="product-image img-fluid">
+                </div>
+                <div class="card-body">
+                  <span class="card-price fw-bold d-block mb-2">{{ product.name }}</span>
+                  <span class="card-price fw-bold d-block mb-2">{{ product.price }}Rs</span>
+
+                  {% if product.stock > 0 %}
+                  <!-- Add to Cart Form -->
+                  <form method="POST" action="{% url 'add_to_cart' %}" class="d-flex flex-column gap-2">
+                    {% csrf_token %}
+                    <input type="hidden" name="product_id" value="{{ product.id }}">
+                    <label for="size_{{ product.id }}" class="form-label small">Select Size:</label>
+                    <select id="size_{{ product.id }}" name="size" class="form-select" required>
+                      <option value="" selected disabled>Choose Size</option>
+                      {% for size in sizes %}
+                      <option value="{{ size }}">{{ size }}</option>
+                      {% endfor %}
+                    </select>
+                    <button type="submit"
+                      class="btn btn-primary w-100 d-flex align-items-center justify-content-center gap-2">
+                      <svg class="shopping-carriage" width="16" height="16">
+                        <use xlink:href="#shopping-carriage"></use>
+                      </svg>
+                      Add to Cart
+                    </button>
+                  </form>
+                  {% else %}
+                  <!-- Stock Unavailable Message -->
+                  <p class="text-danger fw-bold text-center mt-2">Stock Unavailable</p>
+                  {% endif %}
+
+                  <!-- Quick View Button -->
+                  <a href="{% url 'product_detail' product.id %}"
+                    class="btn btn-outline-secondary w-100 mt-2 d-flex align-items-center justify-content-center gap-2">
+                    <svg class="info-icon" width="16" height="16">
+                      <use xlink:href="#info"></use>
+                    </svg>
+                    View Details
+                  </a>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+
         </div>
       </div>
     </section>

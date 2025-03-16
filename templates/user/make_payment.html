@@ -1,0 +1,80 @@
+{% load static %} {% include 'user/user_header.html' %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Make Payment</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+
+<body>
+    <center>
+        <h2>Complete Your Payment</h2>
+        <p>Amount: ₹{{ amount }}</p>
+
+
+        <button id="pay-btn" class="btn btn-primary btn-sm">Pay Now</button>
+    </center>
+    <script>
+        var options = {
+            "key": "{{ razorpay_key }}",
+            "amount": "{{ amount|floatformat:2 }}" * 100, // Convert to paise
+            "currency": "INR",
+            "name": "ShoeApp",
+            "description": "Order Payment",
+            "order_id": "{{ order_id }}",
+            "handler": function (response) {
+                var form = document.createElement("form");
+                form.method = "POST";
+                form.action = "{% url 'payment_success' %}";
+
+                var csrfToken = document.createElement("input");
+                csrfToken.type = "hidden";
+                csrfToken.name = "csrfmiddlewaretoken";
+                csrfToken.value = "{{ csrf_token }}";
+                form.appendChild(csrfToken);
+
+                var orderId = document.createElement("input");
+                orderId.type = "hidden";
+                orderId.name = "razorpay_order_id";
+                orderId.value = response.razorpay_order_id;
+                form.appendChild(orderId);
+
+                var paymentId = document.createElement("input");
+                paymentId.type = "hidden";
+                paymentId.name = "razorpay_payment_id";
+                paymentId.value = response.razorpay_payment_id;
+                form.appendChild(paymentId);
+
+                var signature = document.createElement("input");
+                signature.type = "hidden";
+                signature.name = "razorpay_signature";
+                signature.value = response.razorpay_signature;
+                form.appendChild(signature);
+
+                document.body.appendChild(form);
+                form.submit();
+            },
+            "prefill": {
+                "name": "{{ request.user.username }}",
+                "email": "{{ request.user.email }}"
+            },
+            "theme": {
+                "color": "#3399cc"
+            }
+        };
+
+        var rzp = new Razorpay(options);
+        document.getElementById("pay-btn").onclick = function (e) {
+            rzp.open();
+            e.preventDefault();
+        };
+    </script>
+    <script src="{% static 'js/jquery-1.11.0.min.js' %}"></script>
+    <script src="{% static 'js/plugins.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

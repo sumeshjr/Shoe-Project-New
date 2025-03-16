@@ -30,6 +30,14 @@ urlpatterns = [
     path('update_profile/', update_profile, name='update_profile'),
     path('view_profile/', view_profile, name='view_profile'),
     path('product/<int:product_id>/', product_detail, name='product_detail'),
+    path('make-payment/', make_payment, name='make_payment'),
+    path('payment-success/', payment_success, name='payment_success'),
+    path('payment-failure/', payment_failure, name='payment_failure'),
+    path('my_orders/', my_orders, name='my_orders'),
+    path('download-invoice/<int:order_id>/', download_invoice, name='download_invoice'),
+    path('chat/', chat_view, name='chat'),
+    path('get-response/', chat_response, name='chat_response'),
+    path('chat-history/', get_chat_history, name='chat_history'),
 
 
     # Common
